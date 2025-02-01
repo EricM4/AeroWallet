@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recover Wallet</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Load Ethers.js -->
+    <script src="ethers.umd.min.js"></script>
+    <!-- Load custom recover_wallet.js -->
+    <script src="recover_wallet.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Recover Wallet</h1>
+        </header>
+        <form id="recover-form">
+            <textarea id="mnemonic-input" placeholder="Enter your mnemonic phrase"></textarea>
+            <button id="recover-button" type="submit">Recover Wallet</button>
+        </form>
+        <div id="error-message" class="error-message"></div>
+        <button id="back-button" onclick="window.location.href='index.html'">Back</button>
+    </div>
+</body>
+</html>
+

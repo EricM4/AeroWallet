@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroWallet</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container" id="welcome-screen">
+        <header>
+            <img src="assets/aero-logo.png" alt="Aero Logo" class="logo">
+            <h1>Welcome to AeroWallet</h1>
+        </header>
+        <button id="create-wallet">Create New Wallet</button>
+        <button id="recover-wallet">Recover Wallet</button>
+    </div>
+    
+    <div class="container" id="wallet-screen" style="display: none;">
+        <header>
+            <img src="assets/aero-logo.png" alt="Aero Logo" class="logo">
+            <h1>AeroWallet</h1>
+        </header>
+        
+        <section class="balance">
+            <h2>Wallet Balance</h2>
+            <p><span id="balance">0</span> Aero</p>
+        </section>
+        
+        <section class="actions">
+            <h2>Send Aero</h2>
+            <input type="text" id="recipient" placeholder="Recipient Address">
+            <input type="number" id="amount" placeholder="Amount">
+            <button id="send">Send</button>
+        </section>
+        
+        <section class="history">
+            <h2>Transaction History</h2>
+            <ul id="transactions">
+                <li>No transactions yet.</li>
+            </ul>
+        </section>
+    </div>
+    
+    <script src="wallet.js"></script>
+</body>
+</html>

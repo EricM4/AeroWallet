@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Mnemonic</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="ethers.umd.min.js"></script>
+    <script src="verify_mnemonic.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Verify Mnemonic Phrase</h1>
+        </header>
+        <p>Enter the mnemonic phrase you just received to verify your wallet.</p>
+        <textarea id="mnemonic-input" placeholder="Enter your 12-word phrase"></textarea>
+        
+        <button id="verify-mnemonic">Verify</button>
+        <p id="verification-result" class="error-message"></p> <!-- Display verification messages here -->
+        
+        <button id="back-to-home">Back</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Wallet</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="ethers.umd.min.js"></script>
+    <script src="create_wallet.js" defer></script>
+
+    <style>
+        #continue-to-wallet:disabled {
+            background-color: #a9a9a9; /* Darker gray */
+            cursor: not-allowed;
+        }
+
+        #continue-to-wallet {
+            background-color: #007bff; /* Blue color matching reveal button */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #continue-to-wallet:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .mnemonic-box {
+            border: 1px solid #007bff; /* Blue border matching button */
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #1c1e26; /* Match container background */
+            color: #ffffff; /* White text for visibility */
+            border-radius: 5px; /* Rounded corners */
+            display: none; /* Hidden by default */
+        }
+
+        button {
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Create New Wallet</h1>
+        </header>
+        <p>Your new wallet has been created. Below is your secret recovery phrase. Store it securely.</p>
+        <div id="mnemonic-phrase" class="mnemonic-box">**********</div>
+        <button id="reveal-mnemonic">Reveal</button>
+        <button id="continue-to-wallet" disabled>Continue</button>
+        <button id="back-to-home" onclick="window.location.href='index.html'">Back</button>
+    </div>
+</body>
+</html>

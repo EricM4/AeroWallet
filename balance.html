@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Balance</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Include styles.css -->
+</head>
+<body>
+    <div class="container">
+        <h1>Wallet Balance</h1>
+        <p>Wallet Address: <span id="wallet-address"></span></p>
+        <p>Balance: <span id="wallet-balance"></span></p>
+        <button id="refresh-balance">Refresh Balance</button>
+        <button id="logout">Logout</button>
+    </div>
+
+    <!-- Include Ethers.js -->
+    <script src="ethers.umd.min.js"></script>
+    <!-- Include balance.js -->
+    <script src="balance.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+/* AeroWallet Styles */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0a0f1e;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.container {
+    max-width: 400px;
+    width: 90%;
+    padding: 20px;
+    background: #162240;
+    border-radius: 15px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.7);
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #a0c4ff;
+    margin: 0;
+}
+
+h2 {
+    font-size: 20px;
+    color: #cbd5e1;
+    margin: 20px 0 10px;
+}
+
+p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+input, button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+input {
+    background-color: #1e293b;
+    color: #ffffff;
+    outline: none;
+}
+
+button {
+    background-color: #3b82f6;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2563eb;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+li {
+    background: #1e293b;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Mobile Compatibility */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 22px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+    
+    input, button {
+        font-size: 14px;
+    }
+}
