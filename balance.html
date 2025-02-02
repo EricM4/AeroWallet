@@ -1,23 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wallet Balance</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Include styles.css -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroWallet - Balance & Transactions</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Wallet Balance</h1>
-        <p>Wallet Address: <span id="wallet-address"></span></p>
-        <p>Balance: <span id="wallet-balance"></span></p>
-        <button id="refresh-balance">Refresh Balance</button>
-        <button id="logout">Logout</button>
-    </div>
-
-    <!-- Include Ethers.js -->
-    <script src="ethers.umd.min.js"></script>
-    <!-- Include balance.js -->
-    <script src="balance.js"></script>
+  <div class="container" id="wallet-screen">
+    <header>
+      <img src="assets/aero-logo.png" alt="Aero Logo" class="logo">
+      <h1>AeroWallet</h1>
+    </header>
+    
+    <!-- Wallet Information Section -->
+    <section class="wallet-info">
+      <h2>Your Wallet Address</h2>
+      <p id="wallet-address"></p>
+    </section>
+    
+    <!-- Balance Section -->
+    <section class="balance">
+      <h2>Wallet Balance</h2>
+      <p><span id="balance">0</span> AERO</p>
+      <button id="refresh-balance">Refresh Balance</button>
+    </section>
+    
+    <!-- Transaction Section -->
+    <section class="transactions">
+      <h2>Send Aero</h2>
+      <input type="text" id="recipient" placeholder="Recipient Address">
+      <input type="number" id="amount" placeholder="Amount">
+      <button id="send">Send</button>
+      <!-- Status messages for the transaction -->
+      <div id="status"></div>
+    </section>
+    
+    <!-- Optional: Transaction History Section -->
+    <section class="history">
+      <h2>Transaction History</h2>
+      <ul id="transactions">
+        <li>No transactions yet.</li>
+      </ul>
+    </section>
+  </div>
+  
+  <!-- Script Dependencies (order matters) -->
+  <script src="ethers.umd.min.js"></script>
+  <script src="balance.js"></script>
 </body>
 </html>

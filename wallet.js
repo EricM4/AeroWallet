@@ -1,5 +1,6 @@
 // AeroWallet JavaScript - Wallet Logic
 
+
 document.addEventListener("DOMContentLoaded", () => {
     const welcomeScreen = document.getElementById("welcome-screen");
     const createWalletBtn = document.getElementById("create-wallet");

@@ -1,79 +1,81 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    // Check if ethers.js is available
     if (typeof ethers === "undefined") {
         console.error("Ethers.js is not loaded. Please check the script reference.");
         alert("Error: Ethers.js is not loaded. Please refresh the page.");
         return;
     }
 
+    // HTML Elements
+    const walletBalanceElement = document.getElementById("balance");
     const walletAddressElement = document.getElementById("wallet-address");
-    const walletBalanceElement = document.getElementById("wallet-balance");
     const refreshButton = document.getElementById("refresh-balance");
     const logoutButton = document.getElementById("logout");
 
-    // Your local Aero blockchain node's RPC URL
-    const AERO_RPC_URL = "http://127.0.0.1:8545"; // Make sure your node is running at this URL
+    // Force the API URL to use AeroGames.io, ignoring any global API_URL.
+    const AERO_RPC_URL = "https://aeroblockchain.onrender.com/";
 
-    // Retrieve mnemonic from localStorage (assumed valid after verification in verify_mnemonic.js)
-    let savedMnemonic = localStorage.getItem("savedMnemonic");
 
-    if (!savedMnemonic) {
-        alert("No mnemonic found. Redirecting to wallet creation...");
+    // Retrieve the saved mnemonic or private key
+    let savedCredential = localStorage.getItem("savedMnemonic");
+    if (!savedCredential) {
+        alert("No credential found. Redirecting to wallet creation...");
         window.location.href = "create_wallet.html";
         return;
     }
 
-    // Debug: Log saved mnemonic
-    console.log("Saved Mnemonic:", savedMnemonic);
+    savedCredential = savedCredential.trim();
+    console.log("Saved Credential:", savedCredential);
 
-    // Remove the '0x' prefix if it's included mistakenly (although mnemonic shouldn't have it, we are being cautious)
-    if (savedMnemonic.startsWith("0x")) {
-        console.log("Removing '0x' prefix from mnemonic.");
-        savedMnemonic = savedMnemonic.substring(2); // Remove the '0x' from the mnemonic string
+    // Generate wallet from the saved credential
+    let wallet;
+    if (savedCredential.split(" ").length > 1) {
+        console.log("Credential detected as a mnemonic phrase.");
+        wallet = ethers.Wallet.fromPhrase(savedCredential);
+    } else {
+        console.log("Credential detected as a private key.");
+        if (!savedCredential.startsWith("0x")) {
+            savedCredential = "0x" + savedCredential;
+        }
+        wallet = new ethers.Wallet(savedCredential);
     }
 
-    // Normalize the mnemonic by trimming spaces and ensuring proper format (words only)
-    savedMnemonic = savedMnemonic.trim().replace(/\s+/g, " "); // Ensure spaces are normalized
-    console.log("Normalized Mnemonic:", savedMnemonic); // Log normalized mnemonic for debugging
+    console.log("Wallet Address:", wallet.address);
+    walletAddressElement.textContent = wallet.address;
 
-    try {
-        // Initialize wallet using ethers.js with the correct mnemonic
-        const wallet = new ethers.Wallet(savedMnemonic); // Create wallet directly using the constructor
-        console.log("Wallet Address:", wallet.address); // Log the wallet address
-
-        walletAddressElement.textContent = wallet.address;
-
-        // Initialize the provider for Aero blockchain
-        const provider = new ethers.JsonRpcProvider(AERO_RPC_URL); // Provider for Aero node
-
-        // Fetch balance function
-        async function fetchBalance() {
-            try {
-                const balance = await provider.getBalance(wallet.address);
-                walletBalanceElement.textContent = `${ethers.formatEther(balance)} AERO`;
-            } catch (error) {
-                console.error("Error fetching balance:", error);
-                walletBalanceElement.textContent = "Unable to fetch balance";
+    // Function to fetch balance via the AERO RPC API
+    async function fetchBalance() {
+        try {
+            const response = await fetch(`${AERO_RPC_URL}/balance/${wallet.address}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+
+            const data = await response.json();
+            walletBalanceElement.textContent = `${data.balance} AERO`;
+            console.log("Fetched Balance:", data.balance);
+        } catch (error) {
+            console.error(`Error fetching balance for address ${wallet.address} from ${AERO_RPC_URL}:`, error);
+            walletBalanceElement.textContent = "Unable to fetch balance AERO";
         }
+    }
 
-        // Fetch balance on page load
+    // Set placeholder and wait for user to click refresh
+    walletBalanceElement.textContent = "Balance not loaded. Click refresh to fetch.";
+
+    // Add refresh button functionality
+    refreshButton.addEventListener("click", async () => {
+        refreshButton.disabled = true; // Disable button
+        walletBalanceElement.textContent = "Refreshing...";
         await fetchBalance();
+        refreshButton.disabled = false; // Re-enable button after fetch
+    });
 
-        // Refresh balance when the button is clicked
-        refreshButton.addEventListener("click", async () => {
-            walletBalanceElement.textContent = "Refreshing...";
-            await fetchBalance();
-        });
-
-        // Logout functionality: Clears data and redirects to the homepage
+    // Logout functionality
+    if (logoutButton) {
         logoutButton.addEventListener("click", () => {
-            localStorage.clear(); // Clear all stored data
+            localStorage.clear();
             alert("You have been logged out.");
-            window.location.href = "index.html"; // Redirect to the homepage
+            window.location.href = "index.html";
         });
-    } catch (error) {
-        console.error("Error initializing wallet:", error);
-        alert("An error occurred while initializing your wallet. Please try again.");
     }
 });
